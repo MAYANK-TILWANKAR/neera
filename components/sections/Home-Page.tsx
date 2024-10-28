@@ -23,8 +23,8 @@ const HomePage: React.FC = () => {
             alt="Neera Guest House"
             width={500}
             height={300}
-            layout="responsive"
-            objectFit="cover"
+            className="object-cover"
+            priority
           />
         </div>
 
@@ -79,8 +79,8 @@ const HomePage: React.FC = () => {
             alt="Neera Guest House"
             width={800}
             height={600}
-            layout="responsive"
-            objectFit="cover"
+            className="object-cover"
+            priority
           />
           <div className="absolute inset-0 "></div>
         </div>

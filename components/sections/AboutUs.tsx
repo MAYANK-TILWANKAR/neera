@@ -37,18 +37,12 @@ const AboutUs: React.FC = () => {
 
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="w-full md:w-1/2 mb-8 md:mb-0">
-              <video
-                className="w-full h-auto rounded-3xl shadow-lg"
-                controls
-                preload="metadata"
-                autoPlay
-                loop>
-                <source
-                  src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                  type="video/mp4"
-                />
-                Your browser does not support the video tag.
-              </video>
+              <iframe
+                className="w-full h-[400px] rounded-3xl shadow-lg"
+                src="https://drive.google.com/file/d/1vvZZWMDnAOFtj4xcdXQpVzz84WP7rBzi/preview"
+                loading="lazy"
+                title="Neera Guesthouse Video"
+              />
             </div>
 
             <div className="w-full md:w-1/2 md:pl-12">

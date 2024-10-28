@@ -42,7 +42,7 @@ const NewServices: React.FC = () => {
                 <Image
                   src={service.icon}
                   alt={service.text}
-                  className="w-12 h-12"
+                  className="w-12 h-12 object-cover"
                   width={48}
                   height={48}
                 />

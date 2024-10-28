@@ -10,6 +10,7 @@ interface FormEntry {
   dateFrom: string;
   dateTo: string;
   additionalRequirements?: string;
+  createdAt: string;
 }
 
 const ContactAdminDashboard = () => {
@@ -19,6 +20,7 @@ const ContactAdminDashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,8 +31,13 @@ const ContactAdminDashboard = () => {
           throw new Error(`Error fetching data: ${errorDetails}`);
         }
         const jsonData = await res.json();
-        setFormData(jsonData);
-        setFilteredData(jsonData);
+        // Sort by createdAt in descending order (newest first)
+        const sortedData = jsonData.sort(
+          (a: FormEntry, b: FormEntry) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setFormData(sortedData);
+        setFilteredData(sortedData);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error instanceof Error ? error.message : String(error));
@@ -44,16 +51,25 @@ const ContactAdminDashboard = () => {
 
   useEffect(() => {
     const filtered = formData.filter((entry) => {
+      const entryDate = new Date(entry.dateFrom);
       const isMatchingSearch =
         entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         entry.email.toLowerCase().includes(searchTerm.toLowerCase());
       const isMatchingMonth =
         selectedMonth === "" ||
-        new Date(entry.dateFrom).getMonth() === parseInt(selectedMonth) - 1;
-      return isMatchingSearch && isMatchingMonth;
+        entryDate.getMonth() === parseInt(selectedMonth) - 1;
+      const isMatchingYear =
+        selectedYear === "" ||
+        entryDate.getFullYear() === parseInt(selectedYear);
+      return isMatchingSearch && isMatchingMonth && isMatchingYear;
     });
-    setFilteredData(filtered);
-  }, [searchTerm, selectedMonth, formData]);
+    // Maintain sort order after filtering
+    const sortedFiltered = filtered.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    setFilteredData(sortedFiltered);
+  }, [searchTerm, selectedMonth, selectedYear, formData]);
 
   if (loading) {
     return (
@@ -74,6 +90,10 @@ const ContactAdminDashboard = () => {
     );
   }
 
+  // Get current year and generate a range of years (current year - 1 to current year + 2)
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 4 }, (_, i) => currentYear - 1 + i);
+
   return (
     <div className="container mx-auto p-8">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">Booking Details</h2>
@@ -93,6 +113,17 @@ const ContactAdminDashboard = () => {
           {[...Array(12)].map((_, i) => (
             <option key={i} value={i + 1}>
               {new Date(0, i).toLocaleString("default", { month: "long" })}
+            </option>
+          ))}
+        </select>
+        <select
+          className="px-4 py-2 border rounded-md"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}>
+          <option value="">All Years</option>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
             </option>
           ))}
         </select>
@@ -121,6 +152,9 @@ const ContactAdminDashboard = () => {
               </th>
               <th className="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs">
                 Additional Requirements
+              </th>
+              <th className="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs">
+                Submitted On
               </th>
             </tr>
           </thead>
@@ -154,6 +188,9 @@ const ContactAdminDashboard = () => {
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900">
                     {entry.additionalRequirements || "N/A"}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    {new Date(entry.createdAt).toLocaleString()}
                   </td>
                 </tr>
               ))

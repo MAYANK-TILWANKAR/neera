@@ -174,9 +174,9 @@ export default function NearbyAtraction() {
                     <Image
                       src={attraction.src}
                       alt={attraction.alt}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-md cursor-pointer"
+                      width={800}
+                      height={600}
+                      className="rounded-md cursor-pointer object-cover"
                       onClick={() => openImage(attraction.src)}
                     />
                   </div>
@@ -230,11 +230,12 @@ export default function NearbyAtraction() {
                 <CardContent className="flex-grow flex flex-col p-4">
                   <div className="relative w-full h-48 mb-4">
                     <Image
+                      priority
+                      width={800}
+                      height={600}
                       src={attraction.src}
                       alt={attraction.alt}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-md cursor-pointer"
+                      className="rounded-md cursor-pointer object-cover"
                       onClick={() => openImage(attraction.src)}
                     />
                   </div>
@@ -263,10 +264,12 @@ export default function NearbyAtraction() {
         <div
           className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
           onClick={closeImage}>
-          <img
+          <Image
             src={selectedImage}
             alt="Full-screen"
-            className="max-w-full max-h-full"
+            width={1920}
+            height={1080}
+            className="max-w-full max-h-full object-contain"
           />
         </div>
       )}

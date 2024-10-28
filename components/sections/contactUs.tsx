@@ -22,6 +22,7 @@ export default function ContactUs() {
     dateFrom: "",
     dateTo: "",
     additionalRequirements: "",
+    createdAt: new Date().toISOString(),
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -66,6 +67,7 @@ export default function ContactUs() {
           dateFrom: "",
           dateTo: "",
           additionalRequirements: "",
+          createdAt: new Date().toISOString(),
         });
         // Show popup
         setShowPopup(true);

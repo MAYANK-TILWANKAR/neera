@@ -20,9 +20,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ name, text, imageSrc }) => {
           <Image
             src={imageSrc}
             alt={`${name}'s profile`}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-full"
+            width={1920}
+            height={1080}
+            className="rounded-full object-cover"
           />
         </div>
         <p className="font-semibold text-gray-800">{name}</p>

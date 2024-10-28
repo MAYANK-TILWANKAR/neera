@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Pagination, Parallax } from "swiper/modules";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -87,12 +88,18 @@ const Gallery = () => {
           {galleryImages.map((image, index) => (
             <SwiperSlide key={index}>
               <div className="swiper-slide-content">
-                <img
-                  className="w-full h-96 object-cover cursor-pointer"
-                  src={image.src}
-                  alt={image.alt}
-                  onClick={() => openImage(image.src)}
-                />
+                <div
+                  className="relative w-full h-96 cursor-pointer"
+                  onClick={() => openImage(image.src)}>
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={1920}
+                    height={1080}
+                    className="object-cover"
+                    priority
+                  />
+                </div>
                 <div className="text-center mt-4 font-semibold text-[#3B82F6]">
                   {image.title}
                 </div>
@@ -107,11 +114,14 @@ const Gallery = () => {
         <div
           className="fixed inset-0  bg-opacity-75 flex items-center justify-center z-50"
           onClick={closeImage}>
-          <img
-            src={selectedImage}
-            alt="Full-screen"
-            className="max-w-full max-h-full"
-          />
+          <div className="relative w-full h-full">
+            <Image
+              src={selectedImage}
+              alt="Full-screen"
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
       )}
     </section>

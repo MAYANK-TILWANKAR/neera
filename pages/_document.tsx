@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         <meta
           name="description"
           content="Neera Guesthouse - Your comfortable stay in Ujjain, Madhya Pradesh. Experience local charm and modern amenities."
